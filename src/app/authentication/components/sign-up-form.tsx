@@ -2,12 +2,14 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { authClient } from '@/lib/auth-client';
 
 const formSchema = z.object({
     name: z.string().trim().min(1, "Nome é obrigatório"),
@@ -32,8 +34,27 @@ export const SignUpForm = () => {
         },
     });
 
-    function onSubmit(values: FormValues) {
-        console.log(values);
+    async function onSubmit(values: FormValues) {
+        await authClient.signUp.email({
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            fetchOptions: {
+                onSuccess: () => {
+                    toast.success("Conta criada com sucesso!");
+                },
+
+                onError: (error) => {
+                    if (error.error.code === 'user_already_exists') {
+                        toast.error("E-mail já cadastrado");
+                        form.setError("email", {
+                            message: "E-mail já cadastrado",
+                        });
+                    }
+                    toast.error(error.error.message);
+                }
+            }
+        });
     }
 
     return (
