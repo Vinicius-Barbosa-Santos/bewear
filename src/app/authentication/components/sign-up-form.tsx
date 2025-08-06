@@ -61,7 +61,7 @@ export const SignUpForm = () => {
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <Card>
+                    <Card className='w-full'>
                         <CardHeader>
                             <CardTitle>Criar conta</CardTitle>
                             <CardDescription>Crie uma conta para continuar.</CardDescription>

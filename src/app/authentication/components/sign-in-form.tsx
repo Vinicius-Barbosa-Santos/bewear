@@ -63,7 +63,7 @@ export const SignInForm = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <Card>
+                <Card className='w-full'>
                     <CardHeader>
                         <CardTitle>Entrar</CardTitle>
                         <CardDescription>
