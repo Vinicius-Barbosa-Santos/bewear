@@ -1,12 +1,14 @@
 import { desc } from "drizzle-orm";
 import Image from "next/image";
 
+import BrandList from "@/components/common/brand-list";
 import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
 import ProductsList from "@/components/common/products-list";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
+import { brandImages } from "@/images/brand-images";
 
 export default async function Home() {
 
@@ -43,6 +45,8 @@ export default async function Home() {
           height={400}
           sizes="100vw"
         />
+
+        <BrandList title="Marcas" images={brandImages} />
 
         <ProductsList title="Mais Vendidos" products={products} />
 
