@@ -11,18 +11,17 @@ import { productTable } from "@/db/schema";
 import { brandImages } from "@/images/brand-images";
 
 export default async function Home() {
-
   const products = await db.query.productTable.findMany({
     with: {
       variants: true,
     },
-  })
+  });
   const newlyCreatedProducts = await db.query.productTable.findMany({
     orderBy: [desc(productTable.createdAt)],
     with: {
       variants: true,
     },
-  })
+  });
   const categories = await db.query.categoryTable.findMany({});
 
   return (
@@ -31,7 +30,7 @@ export default async function Home() {
       <div className="space-y-6 px-5">
         <Image
           src="/banner-mobile.png"
-          className="w-full h-auto md:hidden"
+          className="h-auto w-full md:hidden"
           alt="Leve uma vida com estilo"
           width={600}
           height={400}
@@ -39,7 +38,7 @@ export default async function Home() {
         />
         <Image
           src="/banner-desk.png"
-          className="w-full h-auto hidden md:block"
+          className="hidden h-auto w-full md:block"
           alt="Leve uma vida com estilo"
           width={1200}
           height={400}
@@ -56,7 +55,7 @@ export default async function Home() {
 
         <Image
           src="/banner2-mobile.png"
-          className="w-full h-auto md:hidden"
+          className="h-auto w-full md:hidden"
           alt="Leve uma vida com estilo"
           width={600}
           height={400}
