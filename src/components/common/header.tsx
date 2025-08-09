@@ -15,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import { Cart } from "./cart";
 
 export const Header = () => {
   const { data: session } = authClient.useSession();
@@ -36,7 +37,7 @@ export const Header = () => {
       </div>
 
       {/* Direita */}
-      <div className="flex flex-1 items-center justify-end">
+      <div className="flex flex-1 items-center justify-end gap-3">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">
@@ -90,6 +91,7 @@ export const Header = () => {
             </div>
           </SheetContent>
         </Sheet>
+        <Cart />
       </div>
     </header>
   );
