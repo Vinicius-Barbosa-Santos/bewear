@@ -3,6 +3,8 @@ import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
+import { decreaseCartProductQuantity } from "@/actions/decrease-cart-product-quantity";
+import { DecreaseCartProductQuantitySchema } from "@/actions/decrease-cart-product-quantity/schema";
 import { removeProductFromCart } from "@/actions/remove-cart-product";
 import { formatCentsToBRL } from "@/helpers/money";
 
@@ -34,6 +36,14 @@ const CartItem = ({
         },
     })
 
+    const decreaseCartProductQuantityMutation = useMutation({
+        mutationKey: ["decrease-cart-product-quantity"],
+        mutationFn: (data: DecreaseCartProductQuantitySchema) => decreaseCartProductQuantity(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["cart"] });
+        },
+    })
+
     const handleDeleteClick = () => {
         removeProductFromCartMutation.mutate(undefined, {
             onSuccess: () => {
@@ -41,6 +51,17 @@ const CartItem = ({
             },
             onError: () => {
                 toast.error("Erro ao remover produto");
+            },
+        })
+    }
+
+    const handleDecreaseQuantityClick = () => {
+        decreaseCartProductQuantityMutation.mutate({ cartItemId: id }, {
+            onSuccess: () => {
+                toast.success("Quantidade decrementada com sucesso");
+            },
+            onError: () => {
+                toast.error("Erro ao decrementar quantidade");
             },
         })
     }
@@ -61,7 +82,7 @@ const CartItem = ({
                         {productVariantName}
                     </p>
                     <div className="flex w-[100px] items-center justify-between rounded-lg border p-1">
-                        <Button className="h-4 w-4" variant="ghost" onClick={() => { }}>
+                        <Button className="h-4 w-4" variant="ghost" onClick={handleDecreaseQuantityClick}>
                             <MinusIcon />
                         </Button>
                         <p className="text-xs font-medium">{quantity}</p>
